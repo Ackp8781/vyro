@@ -93,6 +93,9 @@ h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,5
 .get-copy h3{font-size:36px;font-weight:300;margin-bottom:12px}
 .get-copy p{color:var(--mute);font-size:15px;margin-bottom:28px}
 #dlBtn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+.dl-steps{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.touch .dl-steps,.get .dl-steps .btn{width:100%;text-align:center}
+@media (max-width:860px){.dl-steps{align-items:stretch}}
 .touch .qr-card{display:none}
 .touch .get{margin-top:40px}
 footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-content:space-between;color:var(--mute);font-size:13px;letter-spacing:.1em}
@@ -171,7 +174,10 @@ footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-co
       <div class="get-copy">
         <h3 class="serif">On your iPhone</h3>
         <p id="dlNote">Scan the code to open this page on your phone, then tap download.</p>
-        <a class="btn solid" id="dlBtn" href="#download" aria-disabled="true">Coming Soon</a>
+        <div class="dl-steps">
+          <a class="btn" id="expoGoBtn" href="#" target="_blank" rel="noopener" hidden>1 &middot; Get Expo Go</a>
+          <a class="btn solid" id="dlBtn" href="#download" aria-disabled="true">Coming Soon</a>
+        </div>
       </div>
     </div>
 
@@ -227,9 +233,23 @@ if (isTouch) document.documentElement.classList.add('touch');
   if (isTouch) note.textContent = url ? 'Tap below to install Vyro.' : 'Vyro is almost ready. The download unlocks here on launch day.';
   if (!url) return;
   if (url.startsWith('exp://')) {
-    note.innerHTML = isTouch
-      ? 'Early preview. First install the free <a href="' + EXPO_GO_URL + '" target="_blank" rel="noopener" style="color:var(--gold2)">Expo Go</a> app, then tap below.'
-      : 'Early preview. Scan the code, install the free Expo Go app, then tap Download Preview.';
+    // exp:// links only open if the Expo Go app is installed; without it Safari says the address is invalid.
+    const goBtn = document.getElementById('expoGoBtn');
+    goBtn.href = EXPO_GO_URL;
+    goBtn.hidden = false;
+    note.textContent = isTouch
+      ? 'Early preview in two steps: install the free Expo Go app, then come back and open Vyro.'
+      : 'Early preview. Scan the code with your phone, then follow the two steps there.';
+    btn.textContent = '2 · Open Vyro Preview';
+    btn.href = url;
+    btn.removeAttribute('aria-disabled');
+    // If the phone is still on this page shortly after the tap, Expo Go is missing: go to the App Store instead.
+    btn.addEventListener('click', () => {
+      setTimeout(() => {
+        if (document.visibilityState === 'visible') location.href = EXPO_GO_URL;
+      }, 1800);
+    });
+    return;
   }
   btn.href = url;
   btn.removeAttribute('aria-disabled');
