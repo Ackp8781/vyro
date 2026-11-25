@@ -84,12 +84,24 @@ h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,5
 
 .cta{text-align:center}
 .cta h2{font-size:clamp(48px,7vw,100px)}
+.get{display:flex;gap:56px;align-items:center;justify-content:center;margin-top:56px;text-align:left}
+.qr-card{padding:22px;border:1px solid var(--gold);background:rgba(12,12,16,.85);text-align:center;box-shadow:0 0 60px rgba(212,175,106,.18)}
+#qr{background:#f3efe6;padding:14px;line-height:0}
+#qr img,#qr canvas{width:184px;height:184px;display:block}
+.qr-card p{margin-top:14px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
+.get-copy{max-width:340px}
+.get-copy h3{font-size:36px;font-weight:300;margin-bottom:12px}
+.get-copy p{color:var(--mute);font-size:15px;margin-bottom:28px}
+#dlBtn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+.touch .qr-card{display:none}
+.touch .get{margin-top:40px}
 footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-content:space-between;color:var(--mute);font-size:13px;letter-spacing:.1em}
 
 .reveal{opacity:0;transform:translateY(50px);transition:opacity 1.2s cubic-bezier(.2,.7,.2,1),transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 
 @media (max-width:860px){
+  .get{flex-direction:column;text-align:center;gap:32px}
   nav ul{display:none}
   .grid,.pricing,.steps{grid-template-columns:1fr}
   section{padding:100px 16px}
@@ -148,8 +160,22 @@ footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-co
 
   <section class="cta" id="download">
     <div class="eyebrow reveal">Early Access</div>
-    <h2 class="reveal">Be the <em class="gold">first.</em></h2>
-    <p class="lead reveal" style="margin:24px auto 40px">Leave your email. We will send your download link on launch day.</p>
+    <h2 class="reveal">Get <em class="gold">Vyro.</em></h2>
+
+    <div class="get reveal">
+      <!-- Computers: scan with a phone. Phones: tap the button. -->
+      <div class="qr-card">
+        <div id="qr" aria-label="QR code to open the Vyro download page on your phone"></div>
+        <p>Scan with your phone camera</p>
+      </div>
+      <div class="get-copy">
+        <h3 class="serif">On your iPhone</h3>
+        <p id="dlNote">Scan the code to open this page on your phone, then tap download.</p>
+        <a class="btn solid" id="dlBtn" href="#download" aria-disabled="true">Coming Soon</a>
+      </div>
+    </div>
+
+    <p class="lead reveal" style="margin:64px auto 32px">Want the launch-day link by email instead?</p>
     <form class="prompt reveal" style="margin:0 auto" onsubmit="event.preventDefault();this.querySelector('button').textContent='You are on the list'">
       <input type="email" required placeholder="your@email.com" aria-label="Email address">
       <button class="btn solid">Notify Me</button>
@@ -164,6 +190,9 @@ footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-co
 // Paste your store links here when the app is published. Leave '' until then.
 const APP_STORE_URL  = '';  // e.g. 'https://apps.apple.com/app/vyro/id0000000000'
 const PLAY_STORE_URL = '';  // e.g. 'https://play.google.com/store/apps/details?id=com.vyro.app'
+// Optional preview link before launch: a TestFlight invite ('https://testflight.apple.com/join/XXXX')
+// or an Expo Go link ('exp://u.expo.dev/...'). Used by the download button when APP_STORE_URL is empty.
+const PREVIEW_URL    = '';
 // ===================================================
 
 // iPhone / iPad (iPadOS reports itself as a Mac, so also check for touch)
@@ -183,6 +212,34 @@ function setupStoreButton(id, url, liveLabel){
 }
 setupStoreButton('appStore', APP_STORE_URL, 'Download on the');
 setupStoreButton('playStore', PLAY_STORE_URL, 'Get it on');
+
+// Phones and tablets cannot scan their own screen: hide the QR there and lead with the button.
+const isTouch = matchMedia('(pointer: coarse)').matches;
+if (isTouch) document.documentElement.classList.add('touch');
+
+// Download button: App Store link first, then a preview link, else stays "Coming Soon".
+(function setupDownload(){
+  const btn = document.getElementById('dlBtn'), note = document.getElementById('dlNote');
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const url = isAndroid ? (PLAY_STORE_URL || PREVIEW_URL) : (APP_STORE_URL || PREVIEW_URL);
+  if (isTouch) note.textContent = url ? 'Tap below to install Vyro.' : 'Vyro is almost ready. The download unlocks here on launch day.';
+  if (!url) return;
+  btn.href = url;
+  btn.removeAttribute('aria-disabled');
+  btn.textContent = url === PREVIEW_URL ? 'Download Preview' : 'Download Vyro';
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// QR always points at this page's download section, so a phone lands on the right button.
+if (window.QRCode) {
+  new QRCode(document.getElementById('qr'), {
+    text: location.origin + location.pathname + '#download',
+    width: 368, height: 368,              // drawn at 2x, displayed at 184px for sharpness
+    colorDark: '#07070a', colorLight: '#f3efe6',
+    correctLevel: QRCode.CorrectLevel.M,
+  });
+}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
