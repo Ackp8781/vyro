@@ -192,7 +192,9 @@ const APP_STORE_URL  = '';  // e.g. 'https://apps.apple.com/app/vyro/id000000000
 const PLAY_STORE_URL = '';  // e.g. 'https://play.google.com/store/apps/details?id=com.vyro.app'
 // Optional preview link before launch: a TestFlight invite ('https://testflight.apple.com/join/XXXX')
 // or an Expo Go link ('exp://u.expo.dev/...'). Used by the download button when APP_STORE_URL is empty.
-const PREVIEW_URL    = '';
+const PREVIEW_URL    = 'exp://u.expo.dev/c4df4a86-d62c-4962-8bd0-e5468376779b?channel-name=preview&runtime-version=exposdk:58.0.0';
+// Preview links that start with exp:// open in the free Expo Go app, so visitors need it first.
+const EXPO_GO_URL    = 'https://apps.apple.com/app/expo-go/id982107779';
 // ===================================================
 
 // iPhone / iPad (iPadOS reports itself as a Mac, so also check for touch)
@@ -224,6 +226,11 @@ if (isTouch) document.documentElement.classList.add('touch');
   const url = isAndroid ? (PLAY_STORE_URL || PREVIEW_URL) : (APP_STORE_URL || PREVIEW_URL);
   if (isTouch) note.textContent = url ? 'Tap below to install Vyro.' : 'Vyro is almost ready. The download unlocks here on launch day.';
   if (!url) return;
+  if (url.startsWith('exp://')) {
+    note.innerHTML = isTouch
+      ? 'Early preview. First install the free <a href="' + EXPO_GO_URL + '" target="_blank" rel="noopener" style="color:var(--gold2)">Expo Go</a> app, then tap below.'
+      : 'Early preview. Scan the code, install the free Expo Go app, then tap Download Preview.';
+  }
   btn.href = url;
   btn.removeAttribute('aria-disabled');
   btn.textContent = url === PREVIEW_URL ? 'Download Preview' : 'Download Vyro';
