@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vyro — Coming Soon</title>
+<!--
+  LAUNCH DAY (iPhone Smart App Banner): replace 0000000000 with your App Store app ID
+  (the number after "id" in your App Store link), then remove the comment markers around the meta tag.
+  Safari will then show a native "Open / Get" bar at the top of the page on iPhone.
+  <meta name="apple-itunes-app" content="app-id=0000000000">
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070a; --bg2:#0d0d12; --ink:#f3efe6; --mute:#9a958a;
+  --gold:#d4af6a; --gold2:#f5dfa8; --line:rgba(212,175,106,.18);
+  --glass:rgba(255,255,255,.035);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;font-weight:300;overflow-x:hidden;line-height:1.6}
+#scene{position:fixed;top:0;left:0;width:100vw;height:100vh;display:block;z-index:0;will-change:transform;pointer-events:none}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,nav,footer{position:relative;z-index:2}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:300}
+.gold{background:linear-gradient(100deg,var(--gold) 0%,var(--gold2) 45%,var(--gold) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+@keyframes sheen{to{background-position:-200% 0}}
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;background:linear-gradient(to bottom,rgba(7,7,10,.92),rgba(7,7,10,0))}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:.35em;font-weight:500}
+nav ul{display:flex;gap:38px;list-style:none}
+nav a{color:var(--mute);text-decoration:none;font-size:13px;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+nav a:hover{color:var(--gold2)}
+.btn{display:inline-block;padding:14px 30px;border:1px solid var(--gold);color:var(--gold2);text-decoration:none;font-size:12px;letter-spacing:.25em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all .4s;font-family:Inter}
+.btn:hover{background:var(--gold);color:#0a0a0a;box-shadow:0 0 40px rgba(212,175,106,.35)}
+.btn.solid{background:var(--gold);color:#0a0a0a}
+
+section{padding:140px 5vw;max-width:1280px;margin:0 auto}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:160px}
+.eyebrow{font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(52px,9vw,128px);line-height:.95;letter-spacing:-.01em}
+h1 em{font-style:italic}
+.lead{max-width:520px;color:var(--mute);font-size:17px;margin:34px 0 46px}
+.prompt{display:flex;max-width:620px;border:1px solid var(--line);background:rgba(12,12,16,.72)}
+.prompt input{flex:1;background:none;border:none;outline:none;color:var(--ink);padding:20px 24px;font:300 15px Inter}
+.prompt input::placeholder{color:#6d685e}
+
+.stores{display:flex;gap:16px;flex-wrap:wrap}
+.store{display:flex;align-items:center;gap:14px;padding:12px 26px;border:1px solid var(--line);background:rgba(12,12,16,.72);color:var(--ink);text-decoration:none;transition:all .4s}
+.store:hover{border-color:var(--gold);box-shadow:0 0 40px rgba(212,175,106,.25)}
+.store svg{width:26px;height:26px;color:var(--gold2)}
+.store span{display:flex;flex-direction:column;font-size:18px;line-height:1.1;font-weight:400}
+.store small{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+html.ios #playStore{display:none}
+html.ios #appStore{padding:18px 34px;border-color:var(--gold)}
+html.ios #appStore svg{width:32px;height:32px}
+html.ios #appStore span{font-size:22px}
+.store.live{border-color:var(--gold)}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,5.5vw,72px);line-height:1.05;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:70px}
+.card{background:rgba(9,9,13,.88);padding:52px 40px;transition:background .5s,transform .5s;transform-style:preserve-3d}
+.card:hover{background:rgba(20,17,10,.9)}
+.num{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:15px;letter-spacing:.3em}
+.card h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:30px;margin:22px 0 14px}
+.card p{color:var(--mute);font-size:15px}
+
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.step{border-top:1px solid var(--line);padding:30px 0;display:flex;gap:30px}
+.step b{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--gold);line-height:1}
+.step h4{font-weight:400;font-size:18px;margin-bottom:6px;letter-spacing:.02em}
+.step p{color:var(--mute);font-size:15px}
+
+.pricing{grid-template-columns:repeat(3,1fr)}
+.price{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;margin:18px 0}
+.price small{font-size:16px;color:var(--mute);font-family:Inter}
+.card ul{list-style:none;margin:24px 0 36px}
+.card li{color:var(--mute);font-size:14px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.card li::before{content:"◆";color:var(--gold);font-size:8px;margin-right:14px;vertical-align:middle}
+.featured{background:linear-gradient(160deg,rgba(212,175,106,.14),rgba(9,9,13,.9) 60%)!important}
+
+.cta{text-align:center}
+.cta h2{font-size:clamp(48px,7vw,100px)}
+footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-content:space-between;color:var(--mute);font-size:13px;letter-spacing:.1em}
+
+.reveal{opacity:0;transform:translateY(50px);transition:opacity 1.2s cubic-bezier(.2,.7,.2,1),transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:860px){
+  nav ul{display:none}
+  .grid,.pricing,.steps{grid-template-columns:1fr}
+  section{padding:100px 16px}
+  .prompt{flex-direction:column}
+  footer{flex-direction:column;gap:12px}
+}
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<nav>
+  <div class="logo">VYRO</div>
+  <ul>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#inside">Inside</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+  <a class="btn" href="#download">Get Notified</a>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow reveal">Arriving Soon &middot; iOS &amp; Android</div>
+    <h1 class="reveal">Vyro.<br><em class="gold">Coming soon.</em></h1>
+    <p class="lead reveal">A new kind of app, crafted with obsessive care. Be among the first to download it the moment it launches.</p>
+    <div class="stores reveal">
+      <a class="store" id="appStore" href="#download" aria-disabled="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span><small data-label>Soon on the</small>App Store</span></a>
+      <a class="store" id="playStore" href="#download" aria-disabled="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1zm11.3 11.3 2.4 2.4-11 6.3 8.6-8.7zm3.7-4.6 2.8 1.6c.8.5.8 1.3 0 1.8l-2.8 1.6-2.7-2.6 2.7-2.4zM6.3 2.2l11 6.3-2.4 2.4-8.6-8.7z"/></svg><span><small data-label>Soon on</small>Google Play</span></a>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="eyebrow reveal">The Experience</div>
+    <h2 class="reveal">Made to be<br><em class="gold">felt.</em></h2>
+    <div class="grid">
+      <div class="card reveal tilt"><div class="num">I</div><h3>Effortless</h3><p>Every gesture considered. Vyro moves the way you think, with nothing standing in your way.</p></div>
+      <div class="card reveal tilt"><div class="num">II</div><h3>Private by Design</h3><p>Your data stays yours. Encrypted, discreet and never sold.</p></div>
+      <div class="card reveal tilt"><div class="num">III</div><h3>Exquisitely Fast</h3><p>Engineered for instant response on every device, every time.</p></div>
+    </div>
+  </section>
+
+  <section id="inside">
+    <div class="steps">
+      <div>
+        <div class="eyebrow reveal">Inside Vyro</div>
+        <h2 class="reveal">Luxury in<br><em class="gold">your pocket.</em></h2>
+      </div>
+      <div>
+        <div class="step reveal"><b>01</b><div><h4>Download</h4><p>Free on iOS and Android at launch.</p></div></div>
+        <div class="step reveal"><b>02</b><div><h4>Personalise</h4><p>Vyro adapts to your style within minutes.</p></div></div>
+        <div class="step reveal"><b>03</b><div><h4>Enjoy</h4><p>A premium experience, refined with every update.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="download">
+    <div class="eyebrow reveal">Early Access</div>
+    <h2 class="reveal">Be the <em class="gold">first.</em></h2>
+    <p class="lead reveal" style="margin:24px auto 40px">Leave your email. We will send your download link on launch day.</p>
+    <form class="prompt reveal" style="margin:0 auto" onsubmit="event.preventDefault();this.querySelector('button').textContent='You are on the list'">
+      <input type="email" required placeholder="your@email.com" aria-label="Email address">
+      <button class="btn solid">Notify Me</button>
+    </form>
+  </section>
+</main>
+
+<footer><span>© 2026 VYRO</span><span>Coming soon to iOS &amp; Android</span></footer>
+
+<script>
+// ================= LAUNCH SETTINGS =================
+// Paste your store links here when the app is published. Leave '' until then.
+const APP_STORE_URL  = '';  // e.g. 'https://apps.apple.com/app/vyro/id0000000000'
+const PLAY_STORE_URL = '';  // e.g. 'https://play.google.com/store/apps/details?id=com.vyro.app'
+// ===================================================
+
+// iPhone / iPad (iPadOS reports itself as a Mac, so also check for touch)
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+if (isIOS) document.documentElement.classList.add('ios');
+
+function setupStoreButton(id, url, liveLabel){
+  const btn = document.getElementById(id);
+  if (!btn || !url) return;
+  btn.href = url;
+  btn.target = '_blank';
+  btn.rel = 'noopener';
+  btn.removeAttribute('aria-disabled');
+  btn.classList.add('live');
+  btn.querySelector('[data-label]').textContent = liveLabel;
+}
+setupStoreButton('appStore', APP_STORE_URL, 'Download on the');
+setupStoreButton('playStore', PLAY_STORE_URL, 'Get it on');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+// ---------- 3D scene ----------
+const canvas = document.getElementById('scene');
+const isMobile = innerWidth < 860;
+const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: false, powerPreference: 'high-performance'});
+let pixelRatio = Math.min(devicePixelRatio, 2);
+const minRatio = Math.min(devicePixelRatio, 1);
+renderer.setPixelRatio(pixelRatio);
+renderer.setClearColor(0x07070a, 1);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x07070a, 0.04);
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+camera.position.set(0, 0, 9);
+
+// Studio reflections: a small light-box scene baked into an environment map.
+// This is what makes metal look like polished gold instead of flat colour.
+(function buildEnvironment(){
+  const env = new THREE.Scene();
+  env.add(new THREE.Mesh(new THREE.BoxGeometry(20, 20, 20), new THREE.MeshBasicMaterial({color: 0x050505, side: THREE.BackSide})));
+  const panel = (color, w, h, x, y, z, ry) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({color: new THREE.Color(color).multiplyScalar(6), side: THREE.DoubleSide}));
+    m.position.set(x, y, z); m.rotation.y = ry; m.lookAt(0, 0, 0); env.add(m);
+  };
+  panel(0xfff1d6, 8, 2.5, 0, 8, 4);      // warm softbox overhead
+  panel(0xffffff, 3, 10, 9, 0, 2);       // strip light right
+  panel(0xb08a4a, 3, 10, -9, 0, 2);      // amber strip left
+  panel(0x6a5cff, 6, 2, 0, -8, -4);      // faint violet kicker
+  panel(0xffe2a8, 4, 4, 0, 0, 9);        // warm key in front
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(env, 0.03).texture;
+  pmrem.dispose();
+})();
+
+const key = new THREE.PointLight(0xf5dfa8, 1.6, 40); key.position.set(5, 4, 6); scene.add(key);
+const rim = new THREE.PointLight(0x8a6cff, 1.0, 40); rim.position.set(-6, -3, 2); scene.add(rim);
+
+// Materials
+const gold = new THREE.MeshStandardMaterial({color: 0xe3b866, metalness: 1, roughness: 0.18, envMapIntensity: 1.4});
+const brushedGold = new THREE.MeshStandardMaterial({color: 0xcfa15a, metalness: 1, roughness: 0.42});
+const obsidian = new THREE.MeshPhysicalMaterial({color: 0x0b0b10, metalness: 0.2, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.03, flatShading: true});
+const crystal = new THREE.MeshPhysicalMaterial({color: 0xfff6e8, metalness: 0, roughness: 0, clearcoat: 1, transparent: true, opacity: 0.32, flatShading: true, envMapIntensity: 2.5});
+
+// Centerpiece: a liquid-gold orb that slowly ripples (displaced in the vertex shader, so it costs the CPU nothing).
+const hero = new THREE.Group();
+scene.add(hero);
+const orbUniforms = {uTime: {value: 0}};
+const liquidGold = gold.clone();
+liquidGold.onBeforeCompile = shader => {
+  shader.uniforms.uTime = orbUniforms.uTime;
+  shader.vertexShader = 'uniform float uTime;\n' +
+    'vec3 vyroWarp(vec3 p){ vec3 n = normalize(p);' +
+    ' float d = sin(n.x*3.1+uTime*0.9)*sin(n.y*2.7+uTime*1.1)*sin(n.z*3.4+uTime*0.7)*0.55' +
+    ' + sin(n.y*7.0-uTime*1.6)*0.06;' +
+    ' return p + n*d*0.42; }\n' + shader.vertexShader;
+  shader.vertexShader = shader.vertexShader.replace('#include <beginnormal_vertex>', `
+    vec3 vN = normalize(position);
+    vec3 vT = normalize(cross(vN, abs(vN.y) > 0.99 ? vec3(1.0,0.0,0.0) : vec3(0.0,1.0,0.0)));
+    vec3 vB = cross(vN, vT);
+    vec3 vP0 = vyroWarp(position);
+    vec3 vP1 = vyroWarp(position + vT*0.01);
+    vec3 vP2 = vyroWarp(position + vB*0.01);
+    vec3 objectNormal = normalize(cross(vP1 - vP0, vP2 - vP0));
+    if (dot(objectNormal, vN) < 0.0) objectNormal = -objectNormal;
+    #ifdef USE_TANGENT
+      vec3 objectTangent = vT;
+    #endif
+  `).replace('#include <begin_vertex>', 'vec3 transformed = vP0;');
+};
+const orb = new THREE.Mesh(new THREE.IcosahedronGeometry(1.35, isMobile ? 40 : 64), liquidGold);
+hero.add(orb);
+
+// Engraved halo rings with tiny bead markers
+const rings = [];
+[[2.35, 0.018, 1.25, 0.3], [2.75, 0.008, 1.7, -0.5], [3.15, 0.012, 1.05, 0.9]].forEach(([r, t, rx, ry], i) => {
+  const ring = new THREE.Group();
+  ring.add(new THREE.Mesh(new THREE.TorusGeometry(r, t, 12, 240), i === 1 ? brushedGold : gold));
+  for (let k = 0; k < 24; k++) {
+    const a = k / 24 * Math.PI * 2;
+    const bead = new THREE.Mesh(new THREE.SphereGeometry(k % 6 ? 0.018 : 0.04, 10, 10), gold);
+    bead.position.set(Math.cos(a) * r, Math.sin(a) * r, 0);
+    ring.add(bead);
+  }
+  ring.rotation.set(rx, ry, 0);
+  hero.add(ring); rings.push(ring);
+});
+
+// Brilliant-cut gem made with a lathe profile (table, crown, girdle, pavilion)
+function gemGeometry(size, facets){
+  const pts = [[0,-1.0],[0.62,0.05],[0.66,0.12],[0.46,0.38],[0.0,0.38]].map(([x,y]) => new THREE.Vector2(x*size, y*size));
+  const g = new THREE.LatheGeometry(pts, facets);
+  g.computeVertexNormals();
+  return g;
+}
+
+// Three gems orbiting the orb
+const orbiters = [];
+[[crystal, 0.55, 3.0, 0], [gold, 0.35, 2.55, 2.1], [obsidian, 0.42, 3.4, 4.2]].forEach(([mat, s, r, ph]) => {
+  const g = new THREE.Mesh(gemGeometry(s, 10), mat);
+  g.userData = {r, ph};
+  hero.add(g); orbiters.push(g);
+});
+
+// Floating jewels drifting through the page
+const floaters = [];
+const floatMats = [obsidian, obsidian, crystal, gold];
+for (let i = 0; i < (isMobile ? 10 : 18); i++) {
+  const s = Math.random() * 0.28 + 0.12;
+  const m = new THREE.Mesh(gemGeometry(s, Math.random() > 0.5 ? 8 : 12), floatMats[i % floatMats.length]);
+  m.position.set((Math.random() - .5) * 18, (Math.random() - .5) * 30 - 6, (Math.random() - .5) * 6 - 3);
+  m.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
+  m.userData = {sp: Math.random() * 0.006 + 0.002, ph: Math.random() * 6, y: m.position.y};
+  scene.add(m); floaters.push(m);
+}
+
+// Gold dust
+const N = isMobile ? 400 : 800, pos = new Float32Array(N * 3);
+for (let i = 0; i < N * 3; i++) pos[i] = (Math.random() - .5) * (i % 3 === 1 ? 40 : 22);
+const dustGeo = new THREE.BufferGeometry();
+dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({color: 0xd4af6a, size: 0.03, transparent: true, opacity: 0.6, depthWrite: false}));
+scene.add(dust);
+
+let lastW = 0, lastH = 0;
+const isTouch = matchMedia('(pointer: coarse)').matches;
+function resize(){
+  const w = innerWidth, h = innerHeight;
+  if (w === lastW && Math.abs(h - lastH) < 120 && isTouch) return;
+  lastW = w; lastH = h;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  const narrow = w < 860;
+  hero.position.set(narrow ? 0 : 2.7, narrow ? 3 : 0, narrow ? -9 : 0);
+}
+addEventListener('resize', resize); resize();
+
+// Smooth scrolling: one animation loop drives both page scroll and 3D, so they never fight for frames.
+const lenis = window.Lenis ? new Lenis({lerp: 0.1, smoothWheel: true}) : null;
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const target = document.querySelector(a.getAttribute('href'));
+  if (target && lenis) { e.preventDefault(); lenis.scrollTo(target, {offset: -40}); }
+}));
+
+let mx = 0, my = 0, scrollPos = 0, camY = 0;
+addEventListener('mousemove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, {passive: true});
+addEventListener('scroll', () => { scrollPos = window.scrollY; }, {passive: true});
+
+// Adaptive quality: if frames take too long, lower the render resolution step by step.
+let frames = 0, slowFrames = 0, last = performance.now(), settleUntil = 0;
+// Ignore frames right after a tab switch or window resize: they are slow for reasons unrelated to the 3D.
+const settle = () => { settleUntil = performance.now() + 1500; frames = 0; slowFrames = 0; };
+document.addEventListener('visibilitychange', settle);
+addEventListener('resize', settle);
+function adaptQuality(){
+  const now = performance.now(), dt = now - last; last = now;
+  if (document.hidden || now < settleUntil || dt > 200) return;
+  if (dt > 34) slowFrames++;
+  if (++frames === 60) {
+    if (slowFrames > 30 && pixelRatio > minRatio) {
+      pixelRatio = Math.max(minRatio, pixelRatio - 0.25);
+      renderer.setPixelRatio(pixelRatio);
+      renderer.setSize(innerWidth, innerHeight, false);
+    }
+    frames = 0; slowFrames = 0;
+  }
+}
+
+const clock = new THREE.Clock();
+(function loop(){
+  requestAnimationFrame(loop);
+  if (innerWidth !== lastW || (!isTouch && innerHeight !== lastH)) resize(); // catches every resize, even ones that fire no event
+  if (lenis) lenis.raf(performance.now());
+  adaptQuality();
+  const t = clock.getElapsedTime();
+  const sp = scrollPos / innerHeight;
+  orbUniforms.uTime.value = t;
+  orb.rotation.y = t * 0.12 + sp * 0.8;
+  hero.rotation.x = my * 0.25 + sp * 0.3;
+  hero.rotation.y = mx * 0.35;
+  rings.forEach((r, i) => r.rotation.z = t * (0.12 + i * 0.07) * (i % 2 ? -1 : 1));
+  orbiters.forEach((g, i) => {
+    const a = t * (0.35 + i * 0.1) + g.userData.ph;
+    g.position.set(Math.cos(a) * g.userData.r, Math.sin(a * 1.3) * 0.6, Math.sin(a) * g.userData.r);
+    g.rotation.y = t * 1.2; g.rotation.z = Math.sin(t + i) * 0.3;
+  });
+  floaters.forEach(f => {
+    f.rotation.x += f.userData.sp; f.rotation.y += f.userData.sp * 1.4;
+    f.position.y = f.userData.y + Math.sin(t * 0.6 + f.userData.ph) * 0.25;
+  });
+  dust.rotation.y = t * 0.015;
+  camera.position.x += (mx * 1.2 - camera.position.x) * 0.04;
+  camY += (-my * 0.8 - camY) * 0.04;
+  camera.position.y = camY - sp * 3;
+  camera.lookAt(0, -sp * 3, 0);
+  renderer.render(scene, camera);
+})();
+
+// ---------- reveal on scroll ----------
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('in')), {threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%4)*0.08+'s'; io.observe(el); });
+
+// ---------- 3D card tilt ----------
+document.querySelectorAll('.tilt').forEach(c => {
+  c.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect();
+    const x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+    c.style.transform = `perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateZ(10px)`;
+  });
+  c.addEventListener('mouseleave', () => c.style.transform = '');
+});
+</script>
+</body>
+</html>
