@@ -375,8 +375,7 @@ dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({color: 0xd4af6a, size: 0.03, transparent: true, opacity: 0.6, depthWrite: false}));
 scene.add(dust);
 
-let lastW = 0, lastH = 0;
-const isTouch = matchMedia('(pointer: coarse)').matches;
+let lastW = 0, lastH = 0; // isTouch is defined in the launch-settings script above
 function resize(){
   const w = innerWidth, h = innerHeight;
   if (w === lastW && Math.abs(h - lastH) < 120 && isTouch) return;
