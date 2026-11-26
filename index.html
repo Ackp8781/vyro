@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Vyro — Coming Soon</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!--
   LAUNCH DAY (iPhone Smart App Banner): replace 0000000000 with your App Store app ID
   (the number after "id" in your App Store link), then remove the comment markers around the meta tag.
@@ -31,7 +33,9 @@ main,nav,footer{position:relative;z-index:2}
 @keyframes sheen{to{background-position:-200% 0}}
 
 nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;background:linear-gradient(to bottom,rgba(7,7,10,.92),rgba(7,7,10,0))}
-.logo{font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:.35em;font-weight:500}
+.logo{display:flex;align-items:center;gap:14px;font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:.35em;font-weight:500}
+.logo img{width:40px;height:40px;filter:drop-shadow(0 0 12px rgba(63,227,220,.45))}
+.app-icon{width:76px;height:76px;margin-bottom:18px;filter:drop-shadow(0 0 22px rgba(63,227,220,.5))}
 nav ul{display:flex;gap:38px;list-style:none}
 nav a{color:var(--mute);text-decoration:none;font-size:13px;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
 nav a:hover{color:var(--gold2)}
@@ -117,7 +121,7 @@ footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-co
 <canvas id="scene"></canvas>
 
 <nav>
-  <div class="logo">VYRO</div>
+  <div class="logo"><img src="logo.png" alt="">VYRO</div>
   <ul>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#inside">Inside</a></li>
@@ -172,6 +176,7 @@ footer{border-top:1px solid var(--line);padding:50px 5vw;display:flex;justify-co
         <p>Scan with your phone camera</p>
       </div>
       <div class="get-copy">
+        <img class="app-icon" src="logo.png" alt="Vyro app icon">
         <h3 class="serif">On your iPhone</h3>
         <p id="dlNote">Scan the code to open this page on your phone, then tap download.</p>
         <div class="dl-steps">
